@@ -99,7 +99,7 @@ class MongoQuery(object):
             if mjp.query is not None:
                 self._query = self.get_for(
                         mjp.target_model,
-                        self._query.join(mjp.relationship),
+                        self._query.outerjoin(mjp.relationship),
                         _as_relation=mjp.relationship
                     )\
                     .query(**mjp.query)\
