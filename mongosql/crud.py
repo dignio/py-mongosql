@@ -216,7 +216,12 @@ class StrictCrudHelper(CrudHelper):
 
         # Query defaults
         if self._query_defaults:
-            query_obj = dict(list(self._query_defaults.items()) + (list(query_obj.items()) if query_obj else []))
+            query_obj = query_obj or {}
+            for key, val in self._query_defaults.items():
+                if callable(val):
+                    query_obj[key] = val(query_obj.get(key))
+                else:
+                    query_obj.setdefault(key, val)
 
         # Max items
         if self._maxitems:
